@@ -36,7 +36,8 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/Yenovi-Org/TLPrinting-Client-Kotlin")
+            val githubRepository = System.getenv("GITHUB_REPOSITORY") ?: "Yenovi-Org/TLPrinting-SDK-Kotlin"
+            url = uri("https://maven.pkg.github.com/$githubRepository")
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
