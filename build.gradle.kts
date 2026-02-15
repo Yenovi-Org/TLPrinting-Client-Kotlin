@@ -7,7 +7,7 @@ plugins {
     `maven-publish`
 }
 
-group = "com.yenovi"
+group = "net.tlprinting"
 version = System.getenv("VERSION") ?: "0.1"
 
 repositories {

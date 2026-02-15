@@ -1,4 +1,4 @@
-package tlprinting.client.model
+package net.tlprinting.client.model
 
 import kotlinx.serialization.Serializable
 

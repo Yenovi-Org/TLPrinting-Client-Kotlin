@@ -1,4 +1,4 @@
-package tlprinting.client
+package net.tlprinting.client
 
 import io.ktor.client.*
 import io.ktor.client.call.body
@@ -14,10 +14,10 @@ import io.ktor.http.appendPathSegments
 import io.ktor.http.takeFrom
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.appendAll
-import tlprinting.client.model.Label
-import tlprinting.client.configuration.PDFConfiguration
-import tlprinting.client.configuration.PrintCodeConfiguration
-import tlprinting.client.model.PaginatedResponse
+import net.tlprinting.client.model.Label
+import net.tlprinting.client.configuration.PDFConfiguration
+import net.tlprinting.client.configuration.PrintCodeConfiguration
+import net.tlprinting.client.model.PaginatedResponse
 
 /**
  * Client for interacting with the TLPrinting Label Printer API.
