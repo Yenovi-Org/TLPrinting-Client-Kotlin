@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class Label(
+ data class Label(
     val id: String,
     val title: String,
 )
