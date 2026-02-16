@@ -65,15 +65,25 @@ class TLPrintingClient(
     }
 
     /**
+     * Get metadata of a single label
+     */
+    suspend fun getLabel(id: String): Label {
+        return client.get {
+            tlPrintingUrl(LABELS_PATH, id)
+        }.body()
+    }
+
+    /**
      * List labels of a users
      * @param pageSize Number of elements to return in a page
      * @param cursor The cursor returned from the previous list request. Used for pagination
      */
-    suspend fun listLabels(pageSize: Int? = null, cursor: String? = null): PaginatedResponse<Label> {
+    suspend fun listLabels(pageSize: Int? = null, cursor: String? = null, search: String? = null): PaginatedResponse<Label> {
         return client.get {
             tlPrintingUrl(LABELS_PATH) {
                 pageSize?.let { parameters.append("pageSize", it.toString()) }
                 cursor?.let { parameters.append("cursor", it) }
+                search?.let { parameters.append("search", it) }
             }
         }.body()
     }
