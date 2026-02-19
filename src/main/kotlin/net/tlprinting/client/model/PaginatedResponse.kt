@@ -12,5 +12,5 @@ data class PaginatedResponse<T> (
 data class PaginationData(
     val size: Int,
     val hasNext: Boolean,
-    val nextCursor: String?,
+    val nextCursor: String? = null,
 )

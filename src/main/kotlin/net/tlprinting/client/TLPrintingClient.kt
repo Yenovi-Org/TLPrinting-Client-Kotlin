@@ -55,7 +55,10 @@ class TLPrintingClient(
             HttpClient(CIO) {
                 install(Auth) {
                     bearer {
-                        BearerTokens(apiKey, null)
+                        loadTokens {
+                            BearerTokens(apiKey, null)
+                        }
+                        sendWithoutRequest { true }
                     }
                 }
                 install(ContentNegotiation) {
