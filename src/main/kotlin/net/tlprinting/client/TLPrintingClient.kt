@@ -104,9 +104,9 @@ class TLPrintingClient(
     }
 
     /**
-     * Generate print code for the label
+     * Generate raw print code bytes for the label
      */
-    suspend fun getLabelPrintCode(labelId: String, config: PrintCodeConfiguration): String {
+    suspend fun getLabelPrintCode(labelId: String, config: PrintCodeConfiguration): ByteArray {
         return client.get {
             tlPrintingUrl(LABELS_PATH, labelId, PRINTCODE_PATH, config.language.languageId) {
                 parameters.appendAll(config.params)
