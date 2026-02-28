@@ -1,4 +1,4 @@
-package tlprinting.client.configuration
+package net.tlprinting.client.configuration
 
 import kotlin.collections.component1
 import kotlin.collections.component2

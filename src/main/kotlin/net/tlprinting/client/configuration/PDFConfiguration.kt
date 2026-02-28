@@ -1,4 +1,4 @@
-package tlprinting.client.configuration
+package net.tlprinting.client.configuration
 
 enum class PageSize(val id: String) {
     LABEL("label"),

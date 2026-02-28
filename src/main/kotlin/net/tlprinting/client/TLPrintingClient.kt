@@ -1,4 +1,4 @@
-package tlprinting.client
+package net.tlprinting.client
 
 import io.ktor.client.*
 import io.ktor.client.call.body
@@ -14,10 +14,10 @@ import io.ktor.http.appendPathSegments
 import io.ktor.http.takeFrom
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.appendAll
-import tlprinting.client.model.Label
-import tlprinting.client.configuration.PDFConfiguration
-import tlprinting.client.configuration.PrintCodeConfiguration
-import tlprinting.client.model.PaginatedResponse
+import net.tlprinting.client.model.Label
+import net.tlprinting.client.configuration.PDFConfiguration
+import net.tlprinting.client.configuration.PrintCodeConfiguration
+import net.tlprinting.client.model.PaginatedResponse
 
 /**
  * Client for interacting with the TLPrinting Label Printer API.
@@ -55,7 +55,10 @@ class TLPrintingClient(
             HttpClient(CIO) {
                 install(Auth) {
                     bearer {
-                        BearerTokens(apiKey, null)
+                        loadTokens {
+                            BearerTokens(apiKey, null)
+                        }
+                        sendWithoutRequest { true }
                     }
                 }
                 install(ContentNegotiation) {
@@ -65,15 +68,25 @@ class TLPrintingClient(
     }
 
     /**
+     * Get metadata of a single label
+     */
+    suspend fun getLabel(id: String): Label {
+        return client.get {
+            tlPrintingUrl(LABELS_PATH, id)
+        }.body()
+    }
+
+    /**
      * List labels of a users
      * @param pageSize Number of elements to return in a page
      * @param cursor The cursor returned from the previous list request. Used for pagination
      */
-    suspend fun listLabels(pageSize: Int? = null, cursor: String? = null): PaginatedResponse<Label> {
+    suspend fun listLabels(pageSize: Int? = null, cursor: String? = null, search: String? = null): PaginatedResponse<Label> {
         return client.get {
             tlPrintingUrl(LABELS_PATH) {
                 pageSize?.let { parameters.append("pageSize", it.toString()) }
                 cursor?.let { parameters.append("cursor", it) }
+                search?.let { parameters.append("search", it) }
             }
         }.body()
     }
@@ -91,9 +104,9 @@ class TLPrintingClient(
     }
 
     /**
-     * Generate print code for the label
+     * Generate raw print code bytes for the label
      */
-    suspend fun getLabelPrintCode(labelId: String, config: PrintCodeConfiguration): String {
+    suspend fun getLabelPrintCode(labelId: String, config: PrintCodeConfiguration): ByteArray {
         return client.get {
             tlPrintingUrl(LABELS_PATH, labelId, PRINTCODE_PATH, config.language.languageId) {
                 parameters.appendAll(config.params)
